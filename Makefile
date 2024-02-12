@@ -1,4 +1,4 @@
-activate:
+on:
 	.\env_workoutapi\Scripts\activate
 
 run:
@@ -7,6 +7,6 @@ run:
 dk-down:
 	docker-compose down
 
-run-docker:
+dk-run:
 	docker-compose up -d
 
