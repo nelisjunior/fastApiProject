@@ -9,9 +9,8 @@ class CategoriaModel(BaseModel):
     __tablename__ = "categorias"
 
     pk_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    nome: Mapped[str] = mapped_column(String(50), nullable=False)
-    atleta: Mapped['CategoriaModel'] = relationship(back_populates='categoria')
-    categoria_id: Mapped[int] = mapped_column(ForeignKey("atletas.pk_id"))
+    nome: Mapped[str] = mapped_column(String(50), primary_key=True, nullable=False)
+    atleta: Mapped['AtletaModel'] = relationship(back_populates='categoria')
     
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, onupdate=datetime.now)
