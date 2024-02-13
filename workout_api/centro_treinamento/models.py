@@ -11,7 +11,7 @@ class CentroTreinamentoModel(BaseModel):
     nm_centro: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     nm_endereco: Mapped[str] = mapped_column(String(60), nullable=False)
     nm_proprietario: Mapped[str] = mapped_column(String(30), nullable=False)
-    nm_atleta: Mapped['AtletaModel'] = relationship(back_populates='nm_centro_treinamento')
+    atletas: Mapped['AtletaModel'] = relationship('AtletaModel', back_populates='centro_treinamento')
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, onupdate=datetime.now)
     deleted_at: Mapped[datetime] = mapped_column(DateTime, nullable=True)

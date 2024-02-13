@@ -8,8 +8,8 @@ class CategoriaModel(BaseModel):
     __tablename__ = "categorias"
 
     pk_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    nm_categoria: Mapped[str] = mapped_column(String(50), primary_key=True, nullable=False)
-    nm_atleta: Mapped['AtletaModel'] = relationship(back_populates='nm_categoria')
+    nm_categoria: Mapped[str] = mapped_column(String(50), nullable=False)
+    atletas: Mapped['AtletaModel'] = relationship('AtletaModel', back_populates='categoria')
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now, onupdate=datetime.now)
     deleted_at: Mapped[datetime] = mapped_column(DateTime, nullable=True)
