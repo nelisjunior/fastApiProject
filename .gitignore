@@ -5,9 +5,10 @@ __pycache__/
 
 # Virtual Environment
 venv/
-!env/
-!env_*
-!_env*
+env/
+env_*
+_env*
+
 
 # IDE
 !.idea/*
