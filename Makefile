@@ -1,10 +1,22 @@
+VENV_NAME=env_workoutapi
+ACTIVATE=$(VENV_NAME)\Scripts\activate
+DEACTIVATE=$(VENV_NAME)\Scripts\deactivate
+DOCKER_APP=C:\Program Files\Docker\Docker\Docker Desktop.exe
+
+create:
+	 @python -m venv $(VENV_NAME)
+	 $(ACTIVATE) && pip install -r requirements.txt
+	 @echo	$(VENV_NAME) criado e ativado.
+	 @echo	Iniciando o $(VENV_NAME)...
+	 run
+
 on:
-	.\env_workoutapi\Scripts\activate
+	$(ACTIVATE)
 off:
-	.\env_workoutapi\Scripts\deactivate
+	$(DEACTIVATE)
 
 run:
-	@uvicorn workout_api.main:app --reload
+	 $(ACTIVATE) && uvicorn $(VENV_NAME).main:app --reload
 
 dk-down:
 	docker-compose down
@@ -12,8 +24,15 @@ dk-down:
 dk-run:
 	docker-compose up -d
 
+# Regra para iniciar o Docker Desktop
+dk-start:
+	@echo	Iniciando o Docker Desktop...
+	$(DOCKER_APP) --quiet
+
+
 create-migrations:
 	@set	PYTHONPATH=%PYTHONPATH%;%cd% && alembic revision --autogenerate -m $(d)
 
 run-migrations:
 	@set	PYTHONPATH=%PYTHONPATH%;%cd% && alembic upgrade head
+
