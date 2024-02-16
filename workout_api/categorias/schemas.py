@@ -1,6 +1,5 @@
 from typing import Annotated
-from pydantic import Field
-
+from pydantic import UUID4, Field
 from workout_api.contrib.schemas import BaseSchema
 
 
@@ -9,9 +8,4 @@ class CategoriaIn(BaseSchema):
 
 
 class CategoriaOut(CategoriaIn):
-    id: Anotated[UUID4, Field(description='Identificador da categoria')]
-    created_at: Anotated[datetime, Field(description='Data de criação')]
-    updated_at: Anotated[datetime, Field(description='Data de atualização')]
-    deleted_at: Anotated[datetime, Field(description='Data de exclusão')]
-    is_active: Anotated[bool, Field(description='Categoria ativa')]
-    is_deleted: Anotated[bool, Field(description='Categoria excluída')]
+    id: Annotated[UUID4, Field(description="Identificador da categoria")]
