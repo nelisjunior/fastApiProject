@@ -43,3 +43,4 @@ share/
 *.DS_Store
 
 
+alembic/versions/24d2cae960d6_init_db.py
