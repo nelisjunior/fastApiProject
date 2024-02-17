@@ -7,8 +7,7 @@ Projeto baseado em: <https://github.com/digitalinnovationone/workout_api>
 ### No windows
 
 1. Instalação do Python
-
-> Versão Python adotada: [3.11.4](https://www.python.org/ftp/python/3.11.4/python-3.11.4-amd64.exe)
+ Versão Python adotada: [3.11.4](https://www.python.org/ftp/python/3.11.4/python-3.11.4-amd64.exe)
 
 - Baixar e instalar o Python
 - Verificar a instalação com o comando `python --version`
@@ -21,6 +20,7 @@ Projeto baseado em: <https://github.com/digitalinnovationone/workout_api>
    - Verifique a instalação com o comando `make --version`
 
 3. Instalação do ambiente virtual
+4. 
 
 > O ambiente virtual adotado é o virtualenv
 
