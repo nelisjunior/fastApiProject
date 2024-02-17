@@ -10,6 +10,8 @@ from workout_api.centro_treinamento.models import CentroTreinamentoModel
 
 from workout_api.contrib.dependencies import DatabaseDependency
 from sqlalchemy.future import select
+from typing import Optional
+from uuid import UUID
 
 router = APIRouter()
 
@@ -64,76 +66,30 @@ async def post(
     return atleta_out
 
 
+
 @router.get(
     '/',
     summary='Consultar todos os Atletas',
     status_code=status.HTTP_200_OK,
     response_model=list[AtletaOut],
 )
-async def query(db_session: DatabaseDependency) -> list[AtletaOut]:
-    atletas: list[AtletaOut] = (await db_session.execute(select(AtletaModel))).scalars().all()
+async def get(db_session: DatabaseDependency, all: Optional[str] = None, id: Optional[UUID] = None, nome: Optional[str] = None, cpf: Optional[str] = None) -> list[AtletaOut]:
+    if all is None and id is None and nome is None and cpf is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Pelo menos um dos parâmetros 'all', 'id', 'nome' ou 'cpf' é necessário",
+        )
+    query = select(AtletaModel)
+    if id:
+        query = query.filter(AtletaModel.id == id)
+    if nome:
+        query = query.filter(AtletaModel.nome == nome)
+    if cpf:
+        query = query.filter(AtletaModel.cpf == cpf)
+    atletas: list[AtletaOut] = (await db_session.execute(query)).scalars().all()
 
     return [AtletaOut.model_validate(atleta) for atleta in atletas]
 
-
-@router.get(
-    '/{id}',
-    summary='Consulta um Atleta pelo id',
-    status_code=status.HTTP_200_OK,
-    response_model=AtletaOut,
-)
-async def get(id: UUID4, db_session: DatabaseDependency) -> AtletaOut:
-    atleta: AtletaOut = (
-        await db_session.execute(select(AtletaModel).filter_by(id=id))
-    ).scalars().first()
-
-    if not atleta:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f'Atleta não encontrado no id: {id}'
-        )
-
-    return atleta
-
-
-@router.get(
-    '/nome/{nome}',
-    summary='Consulta um Atleta pelo nome',
-    status_code=status.HTTP_200_OK,
-    response_model=list[AtletaOut],
-)
-async def get_by_name(nome: str, db_session: DatabaseDependency) -> list[AtletaOut]:
-    atletas: list[AtletaOut] = (
-        await db_session.execute(select(AtletaModel).filter_by(nome=nome))
-    ).scalars().all()
-
-    if not atletas:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Nenhum atleta encontrado com o nome: {nome}",
-        )
-
-    return [AtletaOut.model_validate(atleta) for atleta in atletas]
-
-
-@router.get(
-    '/cpf/{cpf}',
-    summary='Consulta um Atleta pelo CPF',
-    status_code=status.HTTP_200_OK,
-    response_model=AtletaOut,
-)
-async def get_by_cpf(cpf: str, db_session: DatabaseDependency) -> AtletaOut:
-    atleta: AtletaOut = (
-        await db_session.execute(select(AtletaModel).filter_by(cpf=cpf))
-    ).scalars().first()
-
-    if not atleta:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Nenhum atleta encontrado com o CPF: {cpf}",
-        )
-
-    return atleta
 
 
 @router.patch(
