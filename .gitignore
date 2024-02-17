@@ -11,8 +11,8 @@ _env*
 
 
 # IDE
-!.idea/*
-!.vscode/*
+.idea/*
+.vscode/*
 
 # Logs
 *.log
