@@ -31,8 +31,8 @@ dk-start:
 
 
 create-migrations:
-	@set	PYTHONPATH=%PYTHONPATH%;%cd% && alembic revision --autogenerate -m $(d)
+	@cmd /C "set PYTHONPATH=%cd% && alembic revision --autogenerate -m $(d)"
 
 run-migrations:
-	@set	PYTHONPATH=%PYTHONPATH%;%cd% && alembic upgrade head
+	@cmd /C "set PYTHONPATH=%cd% && alembic upgrade head"
 
