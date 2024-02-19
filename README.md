@@ -37,3 +37,23 @@ Projeto baseado em: <https://github.com/digitalinnovationone/workout_api>
 5. Iniciando o servidor
 
 - Executar o comando `uvicorn workout_api.main:app --reload`
+
+## Desafio
+
+
+- [x] Adicionar query parameters nos endpoints
+    - [x] Atleta
+        - [x] Nome
+        - [x] CPF
+- [ ] Customizar response de retorno de endpoints
+    - [ ] Get all
+        - [ ] Atleta
+            - [ ] Nome
+            - [ ] Centro de treinamento
+            - [ ] Categoria
+- [ ] Manipular exceção de integridade dos dados em cada módulo/tabela
+    - [ ] Tratar sqlalchemy.exc.IntegrityError e devolver a seguinte mensagem: “Já existe um atleta cadastrado com o cpf: x”
+    - [ ] Definir status_code: 303
+- [ ] Adicionar paginação utilizando a lib: fastapi-pagination
+    - [ ] Implementar limit e offset
+
