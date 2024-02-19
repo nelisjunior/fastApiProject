@@ -1,4 +1,4 @@
-VENV_NAME=env_workoutapi
+VENV_NAME=env_workoutapi_api
 ACTIVATE=$(VENV_NAME)\Scripts\activate
 DEACTIVATE=$(VENV_NAME)\Scripts\deactivate
 DOCKER_APP=C:\Program Files\Docker\Docker\Docker Desktop.exe
