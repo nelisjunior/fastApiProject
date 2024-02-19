@@ -45,12 +45,12 @@ Projeto baseado em: <https://github.com/digitalinnovationone/workout_api>
     - [x] Atleta
         - [x] Nome
         - [x] CPF
-- [ ] Customizar response de retorno de endpoints
-    - [ ] Get all
-        - [ ] Atleta
-            - [ ] Nome
-            - [ ] Centro de treinamento
-            - [ ] Categoria
+- [x] Customizar response de retorno de endpoints
+    - [x] Get all
+        - [x] Atleta
+            - [x] Nome
+            - [x] Centro de treinamento
+            - [x] Categoria
 - [ ] Manipular exceção de integridade dos dados em cada módulo/tabela
     - [ ] Tratar sqlalchemy.exc.IntegrityError e devolver a seguinte mensagem: “Já existe um atleta cadastrado com o cpf: x”
     - [ ] Definir status_code: 303

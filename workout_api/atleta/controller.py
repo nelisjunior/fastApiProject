@@ -3,18 +3,16 @@ from uuid import uuid4
 from fastapi import APIRouter, Body, HTTPException, status
 from pydantic import UUID4
 
-from workout_api.atleta.schemas import AtletaIn, AtletaOut, AtletaUpdate
+from workout_api.atleta.schemas import AtletaIn, AtletaOut, AtletaUpdate, AtletaResponse
 from workout_api.atleta.models import AtletaModel
 from workout_api.categorias.models import CategoriaModel
 from workout_api.centro_treinamento.models import CentroTreinamentoModel
 
 from workout_api.contrib.dependencies import DatabaseDependency
 from sqlalchemy.future import select
-from typing import Optional
+from typing import Optional, List
 from uuid import UUID
 
-from fastapi_pagination import Page
-from fastapi_pagination.ext.sqlalchemy import paginate
 
 router = APIRouter()
 
@@ -75,6 +73,7 @@ async def post(
     summary='Listar todos os Atletas',
     status_code=status.HTTP_200_OK,
     response_model=list[AtletaOut],
+)
 async def get(db_session: DatabaseDependency, all: Optional[str] = None, id: Optional[UUID] = None, nome: Optional[str] = None, cpf: Optional[str] = None) -> list[AtletaOut]:
     if all is None and id is None and nome is None and cpf is None:
         raise HTTPException(
@@ -88,7 +87,7 @@ async def get(db_session: DatabaseDependency, all: Optional[str] = None, id: Opt
         query = query.filter(AtletaModel.cpf == cpf)
     atletas: list[AtletaOut] = (await db_session.execute(query)).scalars().all()
 
-    return [AtletaOut.model_validate(atleta) for atleta in atletas]
+    return [AtletaResponse(Nome=atleta.nome, Centro_de_treinamento=atleta.centro_treinamento.nome, Categoria=atleta.categoria.nome) for atleta in atletas]
 
 
 
