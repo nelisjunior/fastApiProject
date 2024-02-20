@@ -13,6 +13,9 @@ from sqlalchemy.future import select
 from typing import Optional
 from uuid import UUID
 
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
+
 router = APIRouter()
 
 
@@ -69,10 +72,9 @@ async def post(
 
 @router.get(
     '/',
-    summary='Consultar todos os Atletas',
+    summary='Listar todos os Atletas',
     status_code=status.HTTP_200_OK,
     response_model=list[AtletaOut],
-)
 async def get(db_session: DatabaseDependency, all: Optional[str] = None, id: Optional[UUID] = None, nome: Optional[str] = None, cpf: Optional[str] = None) -> list[AtletaOut]:
     if all is None and id is None and nome is None and cpf is None:
         raise HTTPException(
@@ -80,10 +82,8 @@ async def get(db_session: DatabaseDependency, all: Optional[str] = None, id: Opt
             detail="Pelo menos um dos parâmetros 'all', 'id', 'nome' ou 'cpf' é necessário",
         )
     query = select(AtletaModel)
-    if id:
-        query = query.filter(AtletaModel.id == id)
     if nome:
-        query = query.filter(AtletaModel.nome == nome)
+        query = query.where(AtletaModel.nome == nome)
     if cpf:
         query = query.filter(AtletaModel.cpf == cpf)
     atletas: list[AtletaOut] = (await db_session.execute(query)).scalars().all()
