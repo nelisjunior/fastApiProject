@@ -4,15 +4,15 @@ __pycache__/
 *$py.class
 
 # Virtual Environment
-venv/
-env/
-env_*
-_env*
+*venv/
+*env/
+*env_*/
+*_env*/
 
 
 # IDE
-.idea/*
-.vscode/*
+*.idea/
+*.vscode/
 
 # Logs
 *.log
@@ -42,5 +42,3 @@ share/
 *~
 *.DS_Store
 
-
-alembic/versions/24d2cae960d6_init_db.py
