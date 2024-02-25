@@ -1,4 +1,4 @@
-VENV_NAME=env_workoutapi_api
+VENV_NAME=env_workout_api
 ACTIVATE=$(VENV_NAME)\Scripts\activate
 DEACTIVATE=$(VENV_NAME)\Scripts\deactivate
 DOCKER_APP=C:\Program Files\Docker\Docker\Docker Desktop.exe
@@ -7,16 +7,14 @@ create:
 	 @python -m venv $(VENV_NAME)
 	 $(ACTIVATE) && pip install -r requirements.txt
 	 @echo	$(VENV_NAME) criado e ativado.
-	 @echo	Iniciando o $(VENV_NAME)...
-	 run
 
-on:
-	$(ACTIVATE)
-off:
-	$(DEACTIVATE)
+delete:
+	@cmd /C "rmdir /s /q $(VENV_NAME)"
+	@echo	$(VENV_NAME) deletado.
+
 
 run:
-	 $(ACTIVATE) && uvicorn $(VENV_NAME).main:app --reload
+	 @cmd /C $(ACTIVATE) && uvicorn $(VENV_NAME).main:app --reload
 
 dk-down:
 	docker-compose down
