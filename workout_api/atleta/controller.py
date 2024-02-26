@@ -7,9 +7,9 @@ from workout_api.atleta.schemas import AtletaIn, AtletaOut, AtletaUpdate, Atleta
 from workout_api.atleta.models import AtletaModel
 from workout_api.categorias.models import CategoriaModel
 from workout_api.centro_treinamento.models import CentroTreinamentoModel
-
 from workout_api.contrib.dependencies import DatabaseDependency
 from sqlalchemy.future import select
+from sqlalchemy.exc import IntegrityError
 from typing import Optional, List
 from uuid import UUID
 
@@ -58,6 +58,9 @@ async def post(
 
         db_session.add(atleta_model)
         await db_session.commit()
+    except IntegrityError:
+        await db_session.rollback()
+        raise HTTPException(status_code=303, detail="Já existe um atleta cadastrado com o cpf informado")
     except Exception:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -72,9 +75,9 @@ async def post(
     '/',
     summary='Listar todos os Atletas',
     status_code=status.HTTP_200_OK,
-    response_model=list[AtletaOut],
+    response_model=list[AtletaResponse],  # Alterado para AtletaResponse
 )
-async def get(db_session: DatabaseDependency, all: Optional[str] = None, id: Optional[UUID] = None, nome: Optional[str] = None, cpf: Optional[str] = None) -> list[AtletaOut]:
+async def get(db_session: DatabaseDependency, all: Optional[str] = None, id: Optional[UUID] = None, nome: Optional[str] = None, cpf: Optional[str] = None) -> list[AtletaResponse]:  # Alterado para AtletaResponse
     if all is None and id is None and nome is None and cpf is None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -88,7 +91,6 @@ async def get(db_session: DatabaseDependency, all: Optional[str] = None, id: Opt
     atletas: list[AtletaOut] = (await db_session.execute(query)).scalars().all()
 
     return [AtletaResponse(Nome=atleta.nome, Centro_de_treinamento=atleta.centro_treinamento.nome, Categoria=atleta.categoria.nome) for atleta in atletas]
-
 
 
 @router.patch(
