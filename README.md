@@ -1,6 +1,7 @@
 # FASTAPI PROJECT
 
 Projeto baseado em: <https://github.com/digitalinnovationone/workout_api>
+Repositório dos testes via Postman: <https://documenter.getpostman.com/view/23096957/2sA2rDxM8P>
 
 ## Preparando o ambiente de desenvolvimento
 
