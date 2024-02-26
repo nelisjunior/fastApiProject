@@ -1,7 +1,7 @@
 # FASTAPI PROJECT
 
-Projeto baseado em: <https://github.com/digitalinnovationone/workout_api>
-Repositório dos testes via Postman: <https://documenter.getpostman.com/view/23096957/2sA2rDxM8P>
+- Projeto baseado em: <https://github.com/digitalinnovationone/workout_api> 
+- Repositório dos testes via Postman: <https://documenter.getpostman.com/view/23096957/2sA2rDxM8P>
 
 ## Preparando o ambiente de desenvolvimento
 
@@ -21,7 +21,7 @@ Repositório dos testes via Postman: <https://documenter.getpostman.com/view/230
    - Verifique a instalação com o comando `make --version`
 
 3. Instalação do ambiente virtual
-4. 
+
 
 > O ambiente virtual adotado é o virtualenv
 
@@ -52,9 +52,9 @@ Repositório dos testes via Postman: <https://documenter.getpostman.com/view/230
             - [x] Nome
             - [x] Centro de treinamento
             - [x] Categoria
-- [ ] Manipular exceção de integridade dos dados em cada módulo/tabela
-    - [ ] Tratar sqlalchemy.exc.IntegrityError e devolver a seguinte mensagem: “Já existe um atleta cadastrado com o cpf: x”
-    - [ ] Definir status_code: 303
+- [x] Manipular exceção de integridade dos dados em cada módulo/tabela
+    - [x] Tratar sqlalchemy.exc.IntegrityError e devolver a seguinte mensagem: “Já existe um atleta cadastrado com o cpf: x”
+    - [x] Definir status_code: 303
 - [ ] Adicionar paginação utilizando a lib: fastapi-pagination
     - [ ] Implementar limit e offset
 
