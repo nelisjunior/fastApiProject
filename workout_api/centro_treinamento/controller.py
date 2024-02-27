@@ -1,7 +1,7 @@
 from uuid import uuid4
 from fastapi import APIRouter, Body, HTTPException, status
 from pydantic import UUID4
-from workout_api.centro_treinamento.schemas import CentroTreinamentoIn, CentroTreinamentoOut
+from workout_api.centro_treinamento.schemas import CentroTreinamentoIn, CentroTreinamentoOut, CentroTreinamentoUpdate
 from workout_api.centro_treinamento.models import CentroTreinamentoModel
 
 from workout_api.contrib.dependencies import DatabaseDependency
@@ -61,3 +61,48 @@ async def get(id: UUID4, db_session: DatabaseDependency) -> CentroTreinamentoOut
         )
 
     return centro_treinamento_out
+
+@router.patch(
+    '/{id}',
+    summary='Atualizar um Centro de treinamento pelo id',
+    status_code=status.HTTP_200_OK,
+    response_model=CentroTreinamentoOut,
+)
+async def patch(id: UUID4, db_session: DatabaseDependency, centro_treinamento_up: CentroTreinamentoUpdate = Body(...)) -> CentroTreinamentoOut:
+    centro_treinamento: CentroTreinamentoOut = (
+        await db_session.execute(select(CentroTreinamentoModel).filter_by(id=id))
+    ).scalars().first()
+
+    if not centro_treinamento:
+        raise HTTPException(
+            detail=f'Centro de treinamento não encontrado no id: {id}',
+            status_code=status.HTTP_404_NOT_FOUND
+        )
+
+    centro_treinamento_update = centro_treinamento_up.dict(exclude_unset=True)
+    for key, value in centro_treinamento_update.items():
+        setattr(centro_treinamento, key, value)
+
+    await db_session.commit()
+    await db_session.refresh(centro_treinamento)
+
+    return centro_treinamento
+
+@router.delete(
+    '/{id}',
+    summary='Remover um Centro de treinamento pelo id',
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+async def delete(id: UUID4, db_session: DatabaseDependency) -> None:
+    centro_treinamento: CentroTreinamentoOut = (
+        await db_session.execute(select(CentroTreinamentoModel).filter_by(id=id))
+    ).scalars().first()
+
+    if not centro_treinamento:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f'Centro de treinamento não encontrado no id: {id}'
+        )
+
+    await db_session.delete(centro_treinamento)
+    await db_session.commit()
