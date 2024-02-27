@@ -5,8 +5,7 @@ DOCKER_APP=C:\Program Files\Docker\Docker\Docker Desktop.exe
 
 create:
 	 @python -m venv $(VENV_NAME)
-	 $(ACTIVATE) && pip install -r requirements.txt
-	 @echo	$(VENV_NAME) criado e ativado.
+	 @echo	$(VENV_NAME) criado.
 
 delete:
 	@cmd /C "rmdir /s /q $(VENV_NAME)"
